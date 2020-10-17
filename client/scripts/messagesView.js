@@ -13,20 +13,25 @@ var MessagesView = {
     for (let i = 0; i < messages.length; i++) {
       if (i === 0) { MessagesView.prevID = messages[0].objectId; }
       if (!messages[i].username || !messages[i].text) { continue; }
+      if (!messages[i].roomname) { messages[i].roomname = 'lobby'; }
       message = MessageView.render(messages[i]);
       MessagesView.$chats.append(message);
+
+      //add roomname to Room storage
+      if (!Rooms.storage[messages[i].roomname]) {
+        Rooms.storage[messages[i].roomname] = messages[i].roomname;
+      }
     }
     //create a message using a template (Message?) //need a method for creating messages
     //add it to the chats node (append)
 
-    //set timeout and render
+    //set interval and render
     setInterval(function () {
       Parse.readAll((data) => {
         // examine the response from the server request:
-        console.log('every 5 seconds!');
         MessagesView.render(data);
       });
-    }, 5000);
+    }, 10000);
   },
 
   //this is for adding all new messages
@@ -39,6 +44,7 @@ var MessagesView = {
     for (let i = messages.length - 1; i >= 0; i--) {
       if (i === 0) { MessagesView.prevID = messages[0].objectId; }
       if (!messages[i].username || !messages[i].text) { continue; }
+      if (!messages[i].roomname) { messages[i].roomname = 'lobby'; }
       if (canContinue) {
         message = MessageView.render(messages[i]);
         MessagesView.$chats.prepend(message);
@@ -46,14 +52,25 @@ var MessagesView = {
       if (messages[i].objectId === MessagesView.prevID) {
         canContinue = true;
       }
+
+      //add roomname to Room storage
+      if (!Rooms.storage[messages[i].roomname]) {
+        Rooms.storage[messages[i].roomname] = messages[i].roomname;
+      }
     }
     if (!canContinue) {
       for (let i = messages.length - 1; i >= 0; i--) {
         if (i === 0) { MessagesView.prevID = messages[0].objectId; }
         if (!messages[i].username || !messages[i].text) { continue; }
+        if (!messages[i].roomname) { messages[i].roomname = 'lobby'; }
         message = MessageView.render(messages[i]);
         //pre-pend to DOM
         MessagesView.$chats.prepend(message);
+
+        //add roomname to Room storage
+        if (!Rooms.storage[messages[i].roomname]) {
+          Rooms.storage[messages[i].roomname] = messages[i].roomname;
+        }
       }
     }
   },
@@ -62,7 +79,7 @@ var MessagesView = {
   renderMessage: function() {
     var text = $( "input" ).first().val();
     var username = App.username;
-    var roomname = undefined; //figure out later
+    var roomname = undefined || 'lobby';
 
     var message = new Messages(username, text, roomname);
     Parse.create(message);
