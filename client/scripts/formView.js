@@ -10,12 +10,13 @@ var FormView = {
     // Stop the browser from submitting the form
     //grab the user
     event.preventDefault();
-    var text = $( "input" ).first().val();
-    var username = App.username;
-    var roomname = undefined; //figure out later
+    MessagesView.renderMessage();
+    // var text = $( "input" ).first().val();
+    // var username = App.username;
+    // var roomname = undefined; //figure out later
 
-    var message = new Messages(username, text, roomname);
-    Parse.create(message);
+    // var message = new Messages(username, text, roomname);
+    // Parse.create(message);
   },
 
   setStatus: function(active) {

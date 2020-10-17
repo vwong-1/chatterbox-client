@@ -20,7 +20,6 @@ var App = {
     Parse.readAll((data) => {
       // examine the response from the server request:
       MessagesView.initialize(data);
-      console.log(data);
 
       callback();
     });
