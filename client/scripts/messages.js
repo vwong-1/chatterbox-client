@@ -1,5 +1,5 @@
 class Messages {
-  constructor (username, text, roomname) {
+  constructor (username = 'anonymous', text, roomname) {
     this.username = username;
     this.text = text;
     this.roomname = roomname;
