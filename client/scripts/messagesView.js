@@ -24,7 +24,7 @@ var MessagesView = {
     }
     //create a message using a template (Message?) //need a method for creating messages
     //add it to the chats node (append)
-
+    RoomsView.render();
     //set interval and render
     setInterval(function () {
       Parse.readAll((data) => {
@@ -73,13 +73,15 @@ var MessagesView = {
         }
       }
     }
+
+    RoomsView.render();
   },
 
   //something we call to actually a single message
   renderMessage: function() {
     var text = $( "input" ).first().val();
     var username = App.username;
-    var roomname = undefined || 'lobby';
+    var roomname = Rooms.currentRoom;
 
     var message = new Messages(username, text, roomname);
     Parse.create(message);
