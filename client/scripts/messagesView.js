@@ -58,6 +58,7 @@ var MessagesView = {
         Rooms.storage[messages[i].roomname] = messages[i].roomname;
       }
     }
+
     if (!canContinue) {
       for (let i = messages.length - 1; i >= 0; i--) {
         if (i === 0) { MessagesView.prevID = messages[0].objectId; }
@@ -75,11 +76,12 @@ var MessagesView = {
     }
 
     RoomsView.render();
+    RoomsView.filterRooms();
   },
 
   //something we call to actually a single message
   renderMessage: function() {
-    var text = $( "input" ).first().val();
+    var text = $( "input" )[2].value;
     var username = App.username;
     var roomname = Rooms.currentRoom;
 
